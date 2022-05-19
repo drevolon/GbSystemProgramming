@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] int health;
     [SerializeField] Text textHealth;
+    [SerializeField] Text textSeconds;
+
     [SerializeField] Button btn;
     [SerializeField] Button btnAsync;
     [SerializeField] Button btnStart;
@@ -22,6 +24,7 @@ public class Unit : MonoBehaviour
     int maxHeal = 100;
     bool isHeal = false;
     int frames = 60;
+    private CancellationTokenSource cancellationTokenSource;
 
     void Start()
     {
@@ -29,6 +32,7 @@ public class Unit : MonoBehaviour
         btnAsync.onClick.AddListener(OnClickViewDataAsync);
         btnStart.onClick.AddListener(OnClickBtnStart);
         btnStop.onClick.AddListener(OnClickBtnStop);
+        
     }
 
     private void OnClickViewDataCoroutine()
@@ -38,7 +42,7 @@ public class Unit : MonoBehaviour
 
     async void OnClickViewDataAsync()
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource = new CancellationTokenSource();
 
         CancellationToken cancellationToken = cancellationTokenSource.Token;
 
@@ -53,7 +57,9 @@ public class Unit : MonoBehaviour
     void Update()
     {
         textHealth.text = health.ToString();
-        btn.enabled = isHeal ? false : true;
+        btn.interactable = isHeal ? false : true;
+
+        textSeconds.text = DateTime.Now.Second.ToString();
     }
 
     IEnumerator ReceiveHealing()
@@ -81,28 +87,35 @@ public class Unit : MonoBehaviour
 
     async Task<bool> TaskAsync1(CancellationToken cancellationToken)
     {
-        if (!cancellationToken.IsCancellationRequested)
-        {
+        
             Debug.Log($"Task 1 Begin {Time.time}");
-            await Task.Delay(1000);
+            await Task.Delay(5000, cancellationToken);
+            ResetTime();
             Debug.Log($"Task 1 End {Time.time}");
-        }
+        
 
         return true;
     }
 
+    void ResetTime()
+    {
+        textSeconds.text = "0";
+    }
+
     async Task<bool> TaskAsync2(CancellationToken cancellationToken, int frames)
     {
-        if (!cancellationToken.IsCancellationRequested)
+        Debug.Log($"Task 2 Begin {Time.time}");
+        for (int i = 0; i < frames; i++)
         {
-            Debug.Log($"Task 2 Begin {Time.time}");
-            for (int i = 0; i < frames; i++)
+            await Task.Yield();
+            if (cancellationToken.IsCancellationRequested)
             {
-                await Task.Yield();
+                ResetTime();
+                return false;
             }
-
-            Debug.Log($"Task 2 End {Time.time}");
         }
+
+        Debug.Log($"Task 2 End {Time.time}");
 
         return true;
     }
@@ -112,28 +125,43 @@ public class Unit : MonoBehaviour
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-        Task<bool> task1 =  TaskAsync1(cancellationToken);
-        Task<bool> task2 =  TaskAsync2(cancellationToken, frames);
+        //Task<bool> task1 =  TaskAsync1(cancellationToken);
+        //Task<bool> task2 =  TaskAsync2(cancellationToken, frames);
 
-        Task<bool> result = await Task.WhenAny(task1, task2);
+        Task<bool> task1 = Task.Run(() => TaskAsync1(cancellationToken));
+        Task<bool> task2 = Task.Run(() => TaskAsync2(cancellationToken, frames));
 
-
-        WhatTaskFasterAsync(cancellationToken, task1, task2);
+        Task<bool> resultTask=WhatTaskFasterAsync(cancellationToken, task1, task2);
+        Debug.Log(resultTask);
 
         cancellationTokenSource.Cancel();
         cancellationTokenSource.Dispose();
     }
     void OnClickBtnStop()
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource = new CancellationTokenSource();
         CancellationToken cancellationToken = cancellationTokenSource.Token;
         cancellationTokenSource.Cancel();
         cancellationTokenSource.Dispose();
     }
 
-    async void WhatTaskFasterAsync(CancellationToken cancellation, Task<bool> task1, Task<bool> task2)
+    async Task<bool> WhatTaskFasterAsync(CancellationToken cancellation, Task<bool> task1, Task<bool> task2)
     {
-        Task<bool> result = await Task.WhenAny(task1, task2);
-        Debug.Log(result);
+        Debug.Log($"Begin WhatTaskFasterAsync");
+
+        if (!cancellation.IsCancellationRequested)
+        {
+            Task<bool> result = await Task.WhenAny(task1, task2);
+
+
+
+
+            Debug.Log($"task1 {task1.Result} task2 {task2.Result}");
+            return result.Result == true ? true : false;
+        }
+
+        Debug.Log($"End WhatTaskFasterAsync");
+
+        return false;
     }
 }
