@@ -14,8 +14,8 @@ public class Lesson2study3 : MonoBehaviour
     TransformAccessArray _transformAccess;
     Transform[] _objectData;
     MyJobs myJobs;
-    
 
+    float rotation = 0;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class Lesson2study3 : MonoBehaviour
 
         _transformAccess = new TransformAccessArray(_objectData);
 
-        myJobs = new MyJobs(_speed,Time.deltaTime);
+        myJobs = new MyJobs(_speed,  rotation);
 
         JobHandle jobHandle = myJobs.Schedule(_transformAccess);
         jobHandle.Complete();
@@ -31,26 +31,28 @@ public class Lesson2study3 : MonoBehaviour
 
     private void Update()
     {
-        myJobs._deltaTime = Time.deltaTime;
+        rotation += _speed * Time.deltaTime;
+        myJobs.rotation = rotation;
         var handle=myJobs.Schedule(_transformAccess);
         handle.Complete();
     }
 
     public struct MyJobs : IJobParallelForTransform
     {
-        private float _speed;
-        public float _deltaTime;
-        public MyJobs(float speed, float deltaTime)
+        private float speed;
+        public float rotation;
+        public MyJobs(float speed,  float rotation)
         {
-            _speed = speed;
-            _deltaTime = deltaTime;
+            this.speed = speed;
+            this.rotation = rotation;
         }
 
         public void Execute(int index, TransformAccess transform)
         {
-            Debug.Log($"MyJobs transform: {transform}");
-            
-            transform.rotation = Quaternion.Euler(_speed * _deltaTime, transform.position.y, transform.position.z);
+
+            transform.rotation = Quaternion.Euler(rotation, rotation, rotation);
+
+            Debug.Log($"MyJobs transform: {transform}, speed {speed},  rotation {rotation}");
         }
     }
 
@@ -60,7 +62,7 @@ public class Lesson2study3 : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Transform spawnObject= Instantiate(prefab).transform;
-            spawnObject.position = new Vector3 (Random.Range(1,5), Random.Range(1, 5), Random.Range(1, 5));
+            spawnObject.position = new Vector3 (Random.Range(1,50), Random.Range(1, 50), Random.Range(1, 50));
             spawn[i] = spawnObject;
         }
         return spawn;
