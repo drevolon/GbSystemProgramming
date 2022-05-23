@@ -1525,6 +1525,7 @@ GameObject:
   - component: {fileID: 1153521920}
   - component: {fileID: 1153521921}
   - component: {fileID: 1153521922}
+  - component: {fileID: 1153521923}
   m_Layer: 0
   m_Name: Lesson3
   m_TagString: Untagged
@@ -1571,6 +1572,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39689a2bc06c52d4781c11f79e9e9c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1153521923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153521919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7d8287acc075e4fa8828d7ae928b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonStartServer: {fileID: 1520755547}
+  buttonShutDownServer: {fileID: 521281237}
+  buttonConnectClient: {fileID: 321340739}
+  buttonDisconnectClient: {fileID: 1280025949}
+  buttonSendMessage: {fileID: 498949027}
+  inputField: {fileID: 1981212806}
+  textField: {fileID: 0}
+  server: {fileID: 1153521921}
+  client: {fileID: 1153521922}
 --- !u!1 &1156072144
 GameObject:
   m_ObjectHideFlags: 0
