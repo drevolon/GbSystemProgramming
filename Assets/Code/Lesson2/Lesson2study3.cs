@@ -23,7 +23,7 @@ public class Lesson2study3 : MonoBehaviour
 
         _transformAccess = new TransformAccessArray(_objectData);
 
-        myJobs = new MyJobs(_speed,  rotation);
+        myJobs = new MyJobs(_speed,  rotation, Time.deltaTime);
 
         JobHandle jobHandle = myJobs.Schedule(_transformAccess);
         jobHandle.Complete();
@@ -32,6 +32,8 @@ public class Lesson2study3 : MonoBehaviour
     private void Update()
     {
         rotation += _speed * Time.deltaTime;
+        myJobs.deltaTime = Time.deltaTime;
+
         myJobs.rotation = rotation;
         var handle=myJobs.Schedule(_transformAccess);
         handle.Complete();
@@ -41,16 +43,20 @@ public class Lesson2study3 : MonoBehaviour
     {
         private float speed;
         public float rotation;
-        public MyJobs(float speed,  float rotation)
+        public float deltaTime;
+        public MyJobs(float speed,  float rotation, float deltaTime)
         {
             this.speed = speed;
             this.rotation = rotation;
+            this.deltaTime = deltaTime;
         }
 
         public void Execute(int index, TransformAccess transform)
         {
 
-            transform.rotation = Quaternion.Euler(rotation, rotation, rotation);
+            //transform.rotation = Quaternion.Euler(rotation, rotation, rotation);
+
+            transform.rotation *= Quaternion.Euler(speed * deltaTime, speed * deltaTime, speed * deltaTime);
 
             Debug.Log($"MyJobs transform: {transform}, speed {speed},  rotation {rotation}");
         }
