@@ -77,8 +77,7 @@ public class Server : MonoBehaviour
     public void SendMessage(string message, int connectionID)
     {
         byte[] buffer = Encoding.Unicode.GetBytes(message);
-        NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length *
-        sizeof(char), out error);
+        NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length * sizeof(char), out error);
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
     }
 }
