@@ -637,6 +637,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1109818364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6584947444105097257, guid: d8f4913eccf80ce49ad988203e3467ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 675563563}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1196995803 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6584947444319736957, guid: d8f4913eccf80ce49ad988203e3467ef,
@@ -1003,6 +1015,7 @@ MonoBehaviour:
   buttonDisconnectClient: {fileID: 2099817}
   buttonSendMessage: {fileID: 965542172}
   inputField: {fileID: 1604067326}
+  inputFieldName: {fileID: 1109818364}
   textField: {fileID: 2002708140}
   server: {fileID: 2002708141}
   client: {fileID: 2002708142}

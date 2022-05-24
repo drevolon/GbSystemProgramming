@@ -80,4 +80,54 @@ public class Server : MonoBehaviour
         NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length * sizeof(char), out error);
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
     }
+
 }
+
+class UserData
+{
+    public int ConnectionId { get; set; }
+    public string NameUser { get; set; }
+    public UserData()
+    {
+    }
+    public UserData(int connectionId, string nameUser)
+    {
+        ConnectionId = connectionId;
+        NameUser = nameUser;
+    }
+}
+
+class ChangeUserData
+{
+    List<UserData> listData;
+    UserData userData;
+    public int ConnectionId { get; set; }
+    public string NameUser { get; set; }
+    public ChangeUserData(int connectionId, string nameUser)
+    {
+        listData = new List<UserData>();
+        ConnectionId = connectionId;
+        NameUser = nameUser;
+    }
+
+    public void SetData(int connectionId, string nameUser)
+    {
+        listData.Add(new UserData(connectionId, nameUser));
+    }
+
+    public void RemoveData (int index) 
+    { 
+
+    }
+
+    public List<UserData> GetData()
+    {
+        return listData;
+    }
+
+    public UserData this[int index]
+    {
+        get { return listData[index]; }
+    }
+}
+

@@ -21,6 +21,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TMP_InputField inputField;
     [SerializeField]
+    private TMP_InputField inputFieldName;
+    [SerializeField]
     private TextField textField;
     [SerializeField]
     private Server server;
@@ -53,7 +55,7 @@ public class UIController : MonoBehaviour
     }
     private void SendMessage()
     {
-        client.SendMessage(inputField.text);
+        client.SendMessage(inputField.text, inputFieldName.text);
         inputField.text = "";
     }
     public void ReceiveMessage(object message)

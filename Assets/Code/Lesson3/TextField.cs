@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
 public class TextField : MonoBehaviour
 {
     [SerializeField]
@@ -10,9 +12,19 @@ public class TextField : MonoBehaviour
     [SerializeField]
     private Scrollbar scrollbar;
     private List<string> messages = new List<string>();
+
+    
+
     private void Start()
     {
-        scrollbar.onValueChanged.AddListener((float value) => UpdateText());
+        // scrollbar.onValueChanged.AddListener((float value) => UpdateText());
+        scrollbar.onValueChanged.AddListener(OnValueChanged);
+        
+    }
+
+    private void OnValueChanged(float value)
+    {
+        UpdateText();
     }
     public void ReceiveMessage(object message)
     {

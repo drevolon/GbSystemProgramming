@@ -70,11 +70,11 @@ public class Client : MonoBehaviour
             bufferSize, out dataSize, out error);
         }
     }
-    public void SendMessage(string message)
+    public void SendMessage(string message, string nameUser)
     {
-        byte[] buffer = Encoding.Unicode.GetBytes(message);
-        NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length *
-        sizeof(char), out error);
+        string messageFull = string.Format($"{nameUser}: {message}");
+        byte[] buffer = Encoding.Unicode.GetBytes(messageFull);
+        NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, messageFull.Length * sizeof(char), out error);
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
     }
 }
