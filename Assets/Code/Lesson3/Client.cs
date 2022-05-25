@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -54,8 +55,12 @@ public class Client : MonoBehaviour
                     Debug.Log($"You have been connected to server.");
                     break;
                 case NetworkEventType.DataEvent:
+
                     string message = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
-                    onMessageReceive?.Invoke(message);
+                   
+
+                    onMessageReceive?.Invoke($"{ParseMessage(message)}");
+
                     Debug.Log(message);
                     break;
                 case NetworkEventType.DisconnectEvent:
@@ -70,11 +75,47 @@ public class Client : MonoBehaviour
             bufferSize, out dataSize, out error);
         }
     }
+    public string ParseMessage(string message)
+    {
+        string messageFull = "";
+
+        string[] dataArray = message.Split(',');
+
+        for (int i = 0; i < dataArray.Length; i++)
+        {
+            string[] dataItem = dataArray[i].Split(':');
+
+            for (int x = 0; x < dataItem.Length; x++)
+            {
+                switch (dataItem[x].Replace('"', ' ').Trim())
+                {
+                    case "nameUser":
+                        messageFull += dataItem[x + 1];
+                        break;
+                    case "message":
+                        messageFull += dataItem[x + 1];
+                        break;
+                    case "img":
+                        //код обработки img
+                        break;
+                }
+            }
+
+        }
+
+        return messageFull;
+    }
     public void SendMessage(string message, string nameUser)
     {
-        string messageFull = string.Format($"{nameUser}: {message}");
+        
+        string messageFull = string.Format($"nameUser:{nameUser}, message: {message}");
+
+        //byte[] bufferAtributes = new byte[messageFull.Length * sizeof(char)+2];
+
         byte[] buffer = Encoding.Unicode.GetBytes(messageFull);
+
         NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, messageFull.Length * sizeof(char), out error);
+
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
     }
 }

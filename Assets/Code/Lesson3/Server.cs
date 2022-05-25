@@ -53,6 +53,9 @@ public class Server : MonoBehaviour
                 case NetworkEventType.DataEvent:
                     string message = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
                     SendMessageToAll($"Player {connectionId}: {message}");
+
+                    //SendMessageToAll(ParseMessage(message));
+
                     Debug.Log($"Player {connectionId}: {message}");
                     break;
                 case NetworkEventType.DisconnectEvent:
@@ -79,6 +82,36 @@ public class Server : MonoBehaviour
         byte[] buffer = Encoding.Unicode.GetBytes(message);
         NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length * sizeof(char), out error);
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
+    }
+    public string ParseMessage(string message)
+    {
+        string messageFull = "";
+
+        string[] dataArray = message.Split(',');
+
+        for (int i = 0; i < dataArray.Length; i++)
+        {
+            string[] dataItem = dataArray[i].Split(':');
+
+            for (int x = 0; x < dataItem.Length; x++)
+            {
+                switch (dataItem[x].Replace('"', ' ').Trim())
+                {
+                    case "nameUser":
+                        messageFull += dataItem[x + 1];
+                        break;
+                    case "message":
+                        messageFull += dataItem[x + 1];
+                        break;
+                    case "img":
+                        //код обработки img
+                        break;
+                }
+            }
+
+        }
+
+        return messageFull;
     }
 
 }
