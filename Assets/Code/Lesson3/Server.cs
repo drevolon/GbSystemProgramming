@@ -11,6 +11,7 @@ public class Server : MonoBehaviour
     private bool isStarted = false;
     private byte error;
     List<int> connectionIDs = new List<int>();
+    Dictionary<int, string> dataTableUser;
     public void StartServer()
     {
         NetworkTransport.Init();
@@ -19,6 +20,7 @@ public class Server : MonoBehaviour
         HostTopology topology = new HostTopology(cc, MAX_CONNECTION);
         hostID = NetworkTransport.AddHost(topology, port);
         isStarted = true;
+        
     }
     public void ShutDownServer()
     {
@@ -26,6 +28,7 @@ public class Server : MonoBehaviour
         NetworkTransport.RemoveHost(hostID);
         NetworkTransport.Shutdown();
         isStarted = false;
+        dataTableUser = new Dictionary<int, string>();
     }
 
     void Update()
@@ -47,14 +50,14 @@ public class Server : MonoBehaviour
                     break;
                 case NetworkEventType.ConnectEvent:
                     connectionIDs.Add(connectionId);
-                    SendMessageToAll($"Player {connectionId} has connected.");
-                    Debug.Log($"Player {connectionId} has connected.");
+                    SendMessageToAll($"{GetUserName(connectionId)} {connectionId} has connected.");
+                    Debug.Log($"{GetUserName(connectionId)} {connectionId} has connected.");
                     break;
                 case NetworkEventType.DataEvent:
                     string message = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
                     SendMessageToAll($"Player {connectionId}: {message}");
 
-                    //SendMessageToAll(ParseMessage(message));
+                    dataTableUser.Add(connectionId, SetUserName(message));
 
                     Debug.Log($"Player {connectionId}: {message}");
                     break;
@@ -83,35 +86,42 @@ public class Server : MonoBehaviour
         NetworkTransport.Send(hostID, connectionID, reliableChannel, buffer, message.Length * sizeof(char), out error);
         if ((NetworkError)error != NetworkError.Ok) Debug.Log((NetworkError)error);
     }
-    public string ParseMessage(string message)
+    public string GetUserName(int connectionId)
     {
-        string messageFull = "";
+        string userName = "Player";
 
-        string[] dataArray = message.Split(',');
-
-        for (int i = 0; i < dataArray.Length; i++)
+        if (dataTableUser.Count>0)
         {
-            string[] dataItem = dataArray[i].Split(':');
-
-            for (int x = 0; x < dataItem.Length; x++)
-            {
-                switch (dataItem[x].Replace('"', ' ').Trim())
-                {
-                    case "nameUser":
-                        messageFull += dataItem[x + 1];
-                        break;
-                    case "message":
-                        messageFull += dataItem[x + 1];
-                        break;
-                    case "img":
-                        //код обработки img
-                        break;
-                }
-            }
-
+            userName = dataTableUser[connectionId].ToString();
         }
 
-        return messageFull;
+        return userName;
+    }
+
+    public string SetUserName(string message)
+    {
+        
+
+        if (message != "")
+        {
+            string[] dataArray = message.Split(',');
+
+            for (int i = 0; i < dataArray.Length; i++)
+            {
+                string[] dataItem = dataArray[i].Split(':');
+
+                for (int x = 0; x < dataItem.Length; x++)
+                {
+                    if (dataItem[x].Replace('"', ' ').Trim() == "nameUser")
+                    {
+                        userName = dataItem[x + 1];
+                        return userName;
+                    }
+                }
+            }
+        }
+
+        return userName;
     }
 
 }
