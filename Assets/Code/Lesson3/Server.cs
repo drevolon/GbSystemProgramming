@@ -20,7 +20,7 @@ public class Server : MonoBehaviour
         HostTopology topology = new HostTopology(cc, MAX_CONNECTION);
         hostID = NetworkTransport.AddHost(topology, port);
         isStarted = true;
-        
+        dataTableUser = new Dictionary<int, string>();
     }
     public void ShutDownServer()
     {
@@ -28,7 +28,7 @@ public class Server : MonoBehaviour
         NetworkTransport.RemoveHost(hostID);
         NetworkTransport.Shutdown();
         isStarted = false;
-        dataTableUser = new Dictionary<int, string>();
+        
     }
 
     void Update()
@@ -55,16 +55,16 @@ public class Server : MonoBehaviour
                     break;
                 case NetworkEventType.DataEvent:
                     string message = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
-                    SendMessageToAll($"Player {connectionId}: {message}");
+                    SendMessageToAll($"{GetUserName(connectionId)} {connectionId}: {message}");
 
-                    dataTableUser.Add(connectionId, SetUserName(message));
+                    SaveUserName(connectionId, SetUserName(message));
 
-                    Debug.Log($"Player {connectionId}: {message}");
+                    Debug.Log($"{GetUserName(connectionId)} {connectionId}: {message}");
                     break;
                 case NetworkEventType.DisconnectEvent:
                     connectionIDs.Remove(connectionId);
-                    SendMessageToAll($"Player {connectionId} has disconnected.");
-                    Debug.Log($"Player {connectionId} has disconnected.");
+                    SendMessageToAll($"{GetUserName(connectionId)} {connectionId} has disconnected.");
+                    Debug.Log($"{GetUserName(connectionId)} {connectionId} has disconnected.");
                     break;
                 case NetworkEventType.BroadcastEvent:
                     break;
@@ -97,10 +97,18 @@ public class Server : MonoBehaviour
 
         return userName;
     }
-
-    public string SetUserName(string message)
+    public void SaveUserName(int connectionId, string message)
     {
-        
+        try
+        {
+            dataTableUser.Add(connectionId, SetUserName(message));
+        }
+        catch { }
+    }
+
+        public string SetUserName(string message)
+    {
+        string userName = "";
 
         if (message != "")
         {
