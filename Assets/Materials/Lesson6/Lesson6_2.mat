@@ -40,8 +40,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -57,12 +57,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AtmosphereRadius: 100
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _Degrees: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Falloff: 194.9
-    - _FalloffPlanet: 8.7
+    - _Falloff: 1.69
+    - _FalloffPlanet: 1.9
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -70,16 +72,20 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Size: 289.4
+    - _Pow: 10
+    - _Size: 16.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Transparency: 100.7
-    - _TransparencyPlanet: 194.6
+    - _Step: 1
+    - _Strength: 1
+    - _Transparency: 1.97
+    - _TransparencyPlanet: 1.84
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _AtmoColor: {r: 0.99215686, g: 0.9643814, b: 0.05098037, a: 1}
-    - _Color: {r: 0.17030083, g: 0.8396226, b: 0.17030083, a: 1}
+    - _AtmoColor: {r: 0.6226415, g: 0.12797214, b: 0.10279457, a: 1}
+    - _AtmosphereRadius: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.9386509, b: 0.02352941, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
