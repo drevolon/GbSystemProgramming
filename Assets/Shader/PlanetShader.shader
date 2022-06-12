@@ -65,7 +65,7 @@ Shader "Custom/PlanetShader"
 
         void vert(inout appdata_full v)
         {
-            float height = noise(v.texcoord, 5) * 0.75 + noise(v.texcoord, 30) *
+            float height = noise(v.texcoord, 10) * 0.75 + noise(v.texcoord, 30) *
             0.125 + noise(v.texcoord, 50) * 0.125;
             v.color.r = height + _Height;
         }
@@ -92,7 +92,6 @@ Shader "Custom/PlanetShader"
             o.Albedo = color.rgb;
             o.Emission = _Emission.xyz;
             o.Alpha = color.a;
-
             
         }
         ENDCG

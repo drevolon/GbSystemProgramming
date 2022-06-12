@@ -19,73 +19,23 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2134cc743386526489d5ab8efe3096d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AtmosphereRadius: 100
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _Degrees: 1
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _Falloff: 1.69
-    - _FalloffPlanet: 1.9
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _Pow: 10
-    - _Size: 16.5
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Step: 1
+    - _AtmosphereRadius: 3.6
+    - _Degrees: 106
+    - _Falloff: 7.24
+    - _FalloffPlanet: 7.69
+    - _Pow: 8.4
+    - _Size: 0.8
+    - _Step: -0.41
     - _Strength: 1
-    - _Transparency: 1.97
-    - _TransparencyPlanet: 1.84
-    - _UVSec: 0
-    - _ZWrite: 1
+    - _Transparency: 18.92
+    - _TransparencyPlanet: -6.2
     m_Colors:
-    - _AtmoColor: {r: 0.6226415, g: 0.12797214, b: 0.10279457, a: 1}
-    - _AtmosphereRadius: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.9386509, b: 0.02352941, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _AtmoColor: {r: 0.6581524, g: 0.92825514, b: 0.9622642, a: 1}
+    - _Color: {r: 0.14150941, g: 0.012682444, b: 0.012682444, a: 1}
   m_BuildTextureStacks: []
