@@ -1,21 +1,24 @@
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+
 namespace Network
 {
 #pragma warning disable 618
     public abstract class NetworkMovableObject : NetworkBehaviour
 #pragma warning restore 618
     {
-        protected abstract float _speed { get; }
+        protected abstract float speed { get; }
         protected Action _onUpdateAction { get; set; }
         protected Action _onFixedUpdateAction { get; set; }
         protected Action _onLateUpdateAction { get; set; }
         protected Action _onPreRenderActionAction { get; set; }
         protected Action _onPostRenderAction { get; set; }
+
+        protected UpdatePhase _updatePhase;
 #pragma warning disable 618
-        [SyncVar] protected Vector3 _serverPosition;
-        [SyncVar] protected Vector3 _serverEuler;
+        [SyncVar] protected Vector3 serverPosition;
+        [SyncVar] protected Vector3 serverEuler;
 #pragma warning restore 618
         public override void OnStartAuthority()
         {
@@ -44,7 +47,7 @@ namespace Network
         }
         private void Update()
         {
-            OnUpdateAction?.Invoke();
+            _onUpdateAction?.Invoke();
         }
         private void LateUpdate()
         {

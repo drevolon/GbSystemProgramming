@@ -13,7 +13,7 @@ namespace Characters
             get => _playerName;
             set => _playerName = value;
         }
-        protected override float _speed => _shipSpeed;
+        protected override float speed => _shipSpeed;
         [SerializeField] private Transform _cameraAttach;
         private CameraOrbit _cameraOrbit;
         private PlayerLabel _playerLabel;
@@ -79,6 +79,22 @@ namespace Characters
         private void LateUpdate()
         {
             _cameraOrbit?.CameraMovement();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag== "Planet")
+            {
+                Debug.Log("Destroy Ship");
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Planet")
+            {
+                Debug.Log("Destroy Ship");
+            }
         }
     }
 }

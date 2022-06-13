@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpaceShipSettings
   m_EditorClassIdentifier: 
   _acceleration: 0.1
-  _shipSpeed: 1193
+  _shipSpeed: 608
   _faster: 3
   _normalFov: 60
   _fasterFov: 30

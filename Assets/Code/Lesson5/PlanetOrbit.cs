@@ -1,21 +1,26 @@
 using Network;
 using UnityEngine;
+
 namespace Mechanics
 {
     public class PlanetOrbit : NetworkMovableObject
     {
-        protected override float _speed => _smoothTime;
+        protected override float speed => _smoothTime;
+
         [SerializeField] private Transform _aroundPoint;
         [SerializeField] private float _smoothTime = .3f;
         [SerializeField] private float _circleInSecond = 1f;
+
         [SerializeField] private float _offsetSin = 1;
         [SerializeField] private float _offsetCos = 1;
         [SerializeField] private float _rotationSpeed;
+
         private float _dist;
         private float _currentAng;
         private Vector3 _currentPositionSmoothVelocity;
         private float _currentRotationAngle;
-        private const float _circleRadians = Mathf.PI * 2;
+
+        private const float circleRadians = Mathf.PI * 2;
         private void Start()
         {
             if (isServer)
