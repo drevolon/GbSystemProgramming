@@ -85,16 +85,12 @@ namespace Characters
         {
             if (collision.gameObject.tag== "Planet")
             {
-                Debug.Log("Destroy Ship");
+                Debug.Log("Destroy Ship OnCollisionEnter");
+                Destroy(gameObject);
+                Application.Quit();
             }
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == "Planet")
-            {
-                Debug.Log("Destroy Ship");
-            }
-        }
+       
     }
 }

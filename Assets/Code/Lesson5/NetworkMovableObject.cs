@@ -76,6 +76,11 @@ namespace Network
                 FromServerUpdate();
             }
         }
+
+        private void OnDestroy()
+        {
+            
+        }
         protected abstract void HasAuthorityMovement();
         protected abstract void FromServerUpdate();
         protected abstract void SendToServer();
