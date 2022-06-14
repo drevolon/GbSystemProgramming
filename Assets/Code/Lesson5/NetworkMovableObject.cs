@@ -8,6 +8,8 @@ namespace Network
     public abstract class NetworkMovableObject : NetworkBehaviour
 #pragma warning restore 618
     {
+        public NetworkManager manager;
+
         protected abstract float speed { get; }
         protected Action _onUpdateAction { get; set; }
         protected Action _onFixedUpdateAction { get; set; }
@@ -19,6 +21,7 @@ namespace Network
 #pragma warning disable 618
         [SyncVar] protected Vector3 serverPosition;
         [SyncVar] protected Vector3 serverEuler;
+        [SyncVar] protected bool isDeadShip;
 #pragma warning restore 618
         public override void OnStartAuthority()
         {
@@ -26,6 +29,8 @@ namespace Network
         }
         protected virtual void Initiate(UpdatePhase updatePhase = UpdatePhase.Update)
         {
+            manager = GetComponent<NetworkManager>();
+
             switch (updatePhase)
             {
                 case UpdatePhase.Update:
@@ -45,6 +50,17 @@ namespace Network
                     break;
             }
         }
+        [Command]
+        protected void CmdUpdatePosition(Vector3 position, bool isDeadShip)
+        {
+            serverPosition = position;
+            if (isDeadShip)
+            {
+                Debug.Log("Destoy Ship on server");
+                manager.StopClient();
+            }
+        }
+
         private void Update()
         {
             _onUpdateAction?.Invoke();

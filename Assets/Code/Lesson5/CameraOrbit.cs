@@ -11,8 +11,7 @@ namespace Mechanics
             get
             {
                 Vector3 halfExtends;
-                halfExtends.y = _regularCamera.nearClipPlane * Mathf.Tan(.5f *
-                Mathf.Deg2Rad * _regularCamera.fieldOfView);
+                halfExtends.y = _regularCamera.nearClipPlane * Mathf.Tan(.5f * Mathf.Deg2Rad * _regularCamera.fieldOfView);
                 halfExtends.x = halfExtends.y * _regularCamera.aspect;
                 halfExtends.z = .0f;
                 return halfExtends;
@@ -25,11 +24,9 @@ namespace Mechanics
         [SerializeField, Range(.0f, 1.0f)] private float _focusCentering = .5f;
         [SerializeField, Range(.1f, 5.0f)] private float _sensitive = .5f;
         [SerializeField, Range(1.0f, 360f)]
-        private float _rotationSpeed =
-        90.0f;
+        private float _rotationSpeed = 90.0f;
         [SerializeField, Range(-89.0f, 89.0f)]
-        private float _minVerticalAngle =
-        -30.0f, _maxVerticalAngle = 60.0f;
+        private float _minVerticalAngle = -30.0f, _maxVerticalAngle = 60.0f;
         [SerializeField] private LayerMask _obstacleMask;
         private Vector3 _focusPoint;
         private Vector2 _orbitAngles = new Vector2(45.0f, 0f);
@@ -50,13 +47,10 @@ namespace Mechanics
         public void CameraMovement()
         {
             UpdateFocusPoint();
-            Quaternion lookRotation = ManualRotation(ref _orbitAngles) ?
-            ConstrainAngles(ref _orbitAngles) : transform.localRotation;
+            Quaternion lookRotation = ManualRotation(ref _orbitAngles) ?  ConstrainAngles(ref _orbitAngles) : transform.localRotation;
             Vector3 lookDirection = lookRotation * Vector3.forward;
             LookPosition = _focusPoint + lookDirection;
-            if (Physics.BoxCast(_focusPoint, _ñameraHalfExtends, -lookDirection,
-            out RaycastHit hit, lookRotation, _distance - _regularCamera.nearClipPlane,
-            _obstacleMask))
+            if (Physics.BoxCast(_focusPoint, _ñameraHalfExtends, -lookDirection, out RaycastHit hit, lookRotation, _distance - _regularCamera.nearClipPlane, _obstacleMask))
             {
                 _desiredDistance = hit.distance * _regularCamera.nearClipPlane;
             }
@@ -64,10 +58,8 @@ namespace Mechanics
             {
                 _desiredDistance = _distance;
             }
-            _currentDistance = Mathf.Lerp(_currentDistance, _desiredDistance,
-            Time.deltaTime * 20.0f);
-            Vector3 lookPosition = _focusPoint - lookDirection *
-            _currentDistance;
+            _currentDistance = Mathf.Lerp(_currentDistance, _desiredDistance, Time.deltaTime * 20.0f);
+            Vector3 lookPosition = _focusPoint - lookDirection * _currentDistance;
             transform.SetPositionAndRotation(lookPosition, lookRotation);
         }
         public void SetFov(float fov, float changeSpeed)

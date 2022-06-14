@@ -20,6 +20,9 @@ namespace Characters
         private float _shipSpeed;
         private Rigidbody _rb;
         [SyncVar] private string _playerName;
+
+        private bool isDeadShip;
+
         private void OnGUI()
         {
             if (_cameraOrbit == null)
@@ -53,25 +56,18 @@ namespace Characters
             var isFaster = Input.GetKey(KeyCode.LeftShift);
             var speed = spaceShipSettings.ShipSpeed;
             var faster = isFaster ? spaceShipSettings.Faster : 1.0f;
-            _shipSpeed = Mathf.Lerp(_shipSpeed, speed * faster,
-            SettingsContainer.Instance.SpaceShipSettings.Acceleration);
-            var currentFov = isFaster
-            ? SettingsContainer.Instance.SpaceShipSettings.FasterFov
-            : SettingsContainer.Instance.SpaceShipSettings.NormalFov;
-            _cameraOrbit.SetFov(currentFov,
-            SettingsContainer.Instance.SpaceShipSettings.ChangeFovSpeed);
-            var velocity =
-            _cameraOrbit.transform.TransformDirection(Vector3.forward) * _shipSpeed;
+            _shipSpeed = Mathf.Lerp(_shipSpeed, speed * faster, SettingsContainer.Instance.SpaceShipSettings.Acceleration);
+            var currentFov = isFaster ? SettingsContainer.Instance.SpaceShipSettings.FasterFov : SettingsContainer.Instance.SpaceShipSettings.NormalFov;
+            _cameraOrbit.SetFov(currentFov, SettingsContainer.Instance.SpaceShipSettings.ChangeFovSpeed);
+            var velocity = _cameraOrbit.transform.TransformDirection(Vector3.forward) * _shipSpeed;
             _rb.velocity = velocity * Time.deltaTime;
             if (!Input.GetKey(KeyCode.C))
             {
-                var targetRotation = Quaternion.LookRotation(
-                Quaternion.AngleAxis(_cameraOrbit.LookAngle,
-                -transform.right) *
-                velocity);
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                targetRotation, Time.deltaTime * speed);
+                var targetRotation = Quaternion.LookRotation(Quaternion.AngleAxis(_cameraOrbit.LookAngle,-transform.right) * velocity);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
             }
+
+            CmdUpdatePosition(transform.position, isDeadShip);
         }
         protected override void FromServerUpdate() { }
         protected override void SendToServer() { }
@@ -86,11 +82,14 @@ namespace Characters
             if (collision.gameObject.tag== "Planet")
             {
                 Debug.Log("Destroy Ship OnCollisionEnter");
-                Destroy(gameObject);
-                Application.Quit();
+                isDeadShip = true; 
+                
+               // Destroy(gameObject);
+               // SettingsContainer.Destroy(gameObject);
+                
             }
         }
+      
 
-       
     }
 }
