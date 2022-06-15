@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 329542387990763480}
   - component: {fileID: 2667920165597648053}
   - component: {fileID: 1073071337330613771}
+  - component: {fileID: -2355677439328772123}
   m_Layer: 3
   m_Name: SpaceShip
   m_TagString: Untagged
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affc52a0ac52c264dbae63e9c823b728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   _cameraAttach: {fileID: 8760887349954014286}
 --- !u!114 &7041942755433357698
 MonoBehaviour:
@@ -234,6 +236,18 @@ CapsuleCollider:
   m_Height: 0.05
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2355677439328772123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8760887349337905897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d2ab011abb3f7a44a9affb63fd3ec28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8760887349954014287
 GameObject:
   m_ObjectHideFlags: 0

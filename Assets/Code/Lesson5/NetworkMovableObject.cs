@@ -29,7 +29,7 @@ namespace Network
         }
         protected virtual void Initiate(UpdatePhase updatePhase = UpdatePhase.Update)
         {
-            manager = GetComponent<NetworkManager>();
+            manager = FindObjectOfType<NetworkManager>();
 
             switch (updatePhase)
             {
@@ -57,7 +57,9 @@ namespace Network
             if (isDeadShip)
             {
                 Debug.Log("Destoy Ship on server");
-                manager.StopClient();
+                
+                //manager.StopClient();
+                
             }
         }
 

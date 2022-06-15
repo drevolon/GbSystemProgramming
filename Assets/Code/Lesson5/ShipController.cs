@@ -21,7 +21,10 @@ namespace Characters
         private Rigidbody _rb;
         [SyncVar] private string _playerName;
 
+        private Vector3 _saveStartPos;
         private bool isDeadShip;
+
+        private InteractiveObject[] _interactiveObject;
 
         private void OnGUI()
         {
@@ -33,6 +36,9 @@ namespace Characters
         }
         public override void OnStartAuthority()
         {
+            _saveStartPos = transform.position;
+            _interactiveObject = FindObjectsOfType<InteractiveObject>();
+
             _rb = GetComponent<Rigidbody>();
             if (_rb == null)
             {
@@ -47,8 +53,7 @@ namespace Characters
         }
         protected override void HasAuthorityMovement()
         {
-            var spaceShipSettings =
-            SettingsContainer.Instance?.SpaceShipSettings;
+            var spaceShipSettings = SettingsContainer.Instance?.SpaceShipSettings;
             if (spaceShipSettings == null)
             {
                 return;
@@ -79,13 +84,15 @@ namespace Characters
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag== "Planet")
+            if (collision.gameObject.GetComponent<InteractiveObject>())
             {
                 Debug.Log("Destroy Ship OnCollisionEnter");
-                isDeadShip = true; 
-                
-               // Destroy(gameObject);
-               // SettingsContainer.Destroy(gameObject);
+                isDeadShip = true;
+
+                // Destroy(gameObject);
+                // SettingsContainer.Destroy(gameObject);
+
+                transform.position = _saveStartPos;
                 
             }
         }
