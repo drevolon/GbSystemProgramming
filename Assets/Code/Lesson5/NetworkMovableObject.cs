@@ -21,7 +21,7 @@ namespace Network
 #pragma warning disable 618
         [SyncVar] protected Vector3 serverPosition;
         [SyncVar] protected Vector3 serverEuler;
-        [SyncVar] protected bool isDeadShip;
+       
 #pragma warning restore 618
         public override void OnStartAuthority()
         {
