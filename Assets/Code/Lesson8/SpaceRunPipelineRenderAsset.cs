@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class SpaceRunPipelineRenderAsset : MonoBehaviour
+using UnityEngine.Rendering;
+namespace CustomRenderPipeline
 {
-    // Start is called before the first frame update
-    void Start()
+    public class SpaceRunPipelineRenderAsset : RenderPipelineAsset
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override RenderPipeline CreatePipeline()
+        {
+            return null;
+        }
     }
 }
