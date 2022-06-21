@@ -57,9 +57,10 @@ namespace Network
             if (isDeadShip)
             {
                 Debug.Log("Destoy Ship on server");
-                
+                //manager.OnServerAddPlayer(;
+
                 //manager.StopClient();
-                
+
             }
         }
 

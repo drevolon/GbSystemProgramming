@@ -89,7 +89,7 @@ namespace Characters
                 Debug.Log("Destroy Ship OnCollisionEnter");
                 isDeadShip = true;
 
-                // Destroy(gameObject);
+                Destroy(gameObject);
                 // SettingsContainer.Destroy(gameObject);
 
                 transform.position = _saveStartPos;
