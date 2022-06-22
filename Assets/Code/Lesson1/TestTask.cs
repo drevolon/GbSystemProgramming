@@ -9,7 +9,7 @@ public class TestTask : MonoBehaviour
     async void Start()
     {
         InizTasks(1, "Task1");
-        //InizTasks(2, "Task2");
+        InizTasks(2, "Task2");
     }
 
     async void InizTasks(int wait, string currentTask)
