@@ -170,9 +170,6 @@ public class Fractal : MonoBehaviour
 
     }
 
-   
-}
-
 public struct UpdateFractalLevelJob : IJobFor
 {
     public float SpinAngleDelta;
@@ -200,3 +197,7 @@ public struct UpdateFractalLevelJob : IJobFor
         );
     }
 }
+
+   
+}
+
