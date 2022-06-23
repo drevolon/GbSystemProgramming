@@ -20,8 +20,8 @@ public class Fractal : MonoBehaviour
     private const float _positionOffset = 1.5f;
     private const float _scaleBias = .5f;
     public const int _childCount = 5;
-    //private FractalPart[][] _parts;
-    //private Matrix4x4[][] _matrices;
+    private FractalPart[][] _parts;
+    private Matrix4x4[][] _matrices;
     private ComputeBuffer[] _matricesBuffers;
     private static readonly int _matricesId = Shader.PropertyToID("_Matrices");
     private static MaterialPropertyBlock _propertyBlock;
@@ -42,25 +42,27 @@ public class Fractal : MonoBehaviour
         Quaternion.Euler(-90.0f, .0f, .0f)
     };
 
-    private NativeArray<FractalPart>[] _parts;
-    private NativeArray<Matrix4x4>[] _matrices;
+    private NativeArray<FractalPart>[] _partsNav;
+    private NativeArray<Matrix4x4>[] _matricesNav;
 
     private void OnEnable()
     {
-        //_parts = new FractalPart[_depth][];
-        // _matrices = new Matrix4x4[_depth][];
+        _parts = new FractalPart[_depth][];
+        _matrices = new Matrix4x4[_depth][];
 
-        
+
 
 
         _matricesBuffers = new ComputeBuffer[_depth];
         var stride = 16 * 4;
         for (int i = 0, length = 1; i < _parts.Length; i++, length *= _childCount)
         {
-            //_parts[i] = new FractalPart[length];
-            //_matrices[i] = new Matrix4x4[length];
-            _parts[i] = new NativeArray<FractalPart>(length, Allocator.Persistent);
-            _matrices[i] = new NativeArray<Matrix4x4>(length, Allocator.Persistent);
+            _parts[i] = new FractalPart[length];
+            _matrices[i] = new Matrix4x4[length];
+
+           // _partsNav[i] = new NativeArray<FractalPart>(length, Allocator.Persistent);
+           // _matricesNav[i] = new NativeArray<Matrix4x4>(length, Allocator.Persistent);
+
             _matricesBuffers[i] = new ComputeBuffer(length, stride);
         }
         _parts[0][0] = CreatePart(0);
@@ -82,8 +84,8 @@ public class Fractal : MonoBehaviour
         for (var i = 0; i < _matricesBuffers.Length; i++)
         {
             _matricesBuffers[i].Release();
-            _parts[i].Dispose();
-            _matrices[i].Dispose();
+            //_partsNav[i].Dispose();
+           // _matricesNav[i].Dispose();
 
         }
 
@@ -153,20 +155,20 @@ public class Fractal : MonoBehaviour
         }
 
 
-        JobHandle jobHandle = default;
-        for (var li = 1; li < _parts.Length; li++)
-        {
-            scale *= _scaleBias;
-            jobHandle = new UpdateFractalLevelJob
-            {
-                SpinAngleDelta = spinAngelDelta,
-                Scale = scale,
-                Parents = _parts[li - 1],
-                Parts = _parts[li],
-                Matrices = _matrices[li]
-            }.Schedule(_parts[li].Length, jobHandle);
-        }
-        jobHandle.Complete();
+        //JobHandle jobHandle = default;
+        //for (var li = 1; li < _parts.Length; li++)
+        //{
+        //    scale *= _scaleBias;
+        //    jobHandle = new UpdateFractalLevelJob
+        //    {
+        //        SpinAngleDelta = spinAngelDelta,
+        //        Scale = scale,
+        //       // Parents = _parts[li - 1],
+        //       // Parts = _parts[li],
+        //       // Matrices = _matrices[li]
+        //    }.Schedule(_parts[li].Length, jobHandle);
+        //}
+        //jobHandle.Complete();
 
     }
 
