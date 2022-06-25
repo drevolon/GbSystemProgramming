@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlanetAtmospher
-  m_Shader: {fileID: 4800000, guid: 70a280ff11c422c44a6864bc6075776a, type: 3}
+  m_Shader: {fileID: 4800000, guid: ff8bf6b702d43284baeabd789ad306bd, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -57,10 +57,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AtmosphereRadius: 29.5
+    - _AtmosphereRadius: 69.2
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _Degrees: 247
+    - _Degrees: 25
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -72,18 +72,18 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _PlanetRadius: 0
-    - _Pow: 11.4
+    - _Pow: 1.5
     - _Seed: 2224
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Step: -0.05
+    - _Step: -0.03
     - _Strength: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _AtmoColor: {r: 0.5, g: 0.5, b: 1, a: 1}
-    - _Color: {r: 0.19725144, g: 0.3490566, b: 0.13665895, a: 1}
+    - _AtmoColor: {r: 1, g: 0.771629, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.11237703, b: 0, a: 1}
     - _ColorEarth: {r: 0, g: 1, b: 0, a: 1}
     - _ColorMountains: {r: 0.49, g: 0.25, b: 0.08, a: 1}
     - _ColorSea: {r: 0, g: 0, b: 1, a: 1}
