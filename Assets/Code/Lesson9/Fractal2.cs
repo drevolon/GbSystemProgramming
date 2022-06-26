@@ -4,107 +4,98 @@ using Unity.Collections;
 using UnityEngine;
 using Unity.Jobs;
 using UnityEngine.Jobs;
+using System;
 
 public class Fractal2 : MonoBehaviour
 {
-    [SerializeField]
-    private int _depth = 6;
-    [SerializeField, Range(1, 360)] private int rotationSpeed;
-    private const float _positionOffset = .75f;
-    private const float _scaleBias = .5f;
-    TransformAccessArray _transformAccess;
-    [SerializeField] float _speed = 100;
-
-
-    MyJobs myJobs;
-    void Start()
+    private struct FractalPart
     {
-        Spawn();
-
-        myJobs = new MyJobs(_speed, rotationSpeed, Time.deltaTime);
-        _transformAccess = new TransformAccessArray();
-
-       
-        JobHandle jobHandle = myJobs.Schedule(_transformAccess);
-        jobHandle.Complete();
+        public Vector3 Direction;
+        public Quaternion Rotation;
+        public Transform Transform;
     }
 
-    private Transform[] SpawnData(GameObject prefab, int count)
+    [SerializeField] private Mesh mesh;
+    [SerializeField] private Material material;
+    [SerializeField] private FractalPart[][] _parts;
+
+    [SerializeField, Range(1,8)] private int _depth = 4;
+    [SerializeField, Range(1, 360)] private int _rotationSpeed;
+
+    private const float _positionOffset = 1.5f;
+    private const float _scaleBias =0.5f;
+    private const int _childCount = 5;
+
+    private static readonly Vector3[] _directions =  {
+        Vector3.up,
+        Vector3.left,
+        Vector3.right,
+        Vector3.forward,
+        Vector3.back
+    };
+    private static readonly Quaternion[] _rotations =  {
+        Quaternion.identity,
+        Quaternion.Euler(0f, 0f, 90f),
+        Quaternion.Euler(0f, 0f, -90f),
+        Quaternion.Euler(90f, 0f, 90f),
+        Quaternion.Euler(-90f, 0f, 90f),
+    };
+
+    private void OnEnable()
     {
-        Transform[] spawn = new Transform[count];
-        for (int i = 0; i < count; i++)
+        _parts = new FractalPart[_depth][];
+
+        for (int i = 0, length = 1; i < _parts.Length; i++, length*=_childCount)
         {
-            Transform spawnObject = Instantiate(prefab).transform;
-            spawnObject.position = new Vector3(Random.Range(1, 50), Random.Range(1, 50), Random.Range(1, 50));
-            spawn[i] = spawnObject;
+            _parts[i]=new FractalPart[length];
         }
-        return spawn;
-    }
 
+        var scale = 1f;
+        _parts[0][0] = CreatePart(0, 0, scale);
 
-    private void Spawn()
-    {
-        name = "Fractal " + _depth;
-        if (_depth <= 1)
+        for (var levelIndex = 1; levelIndex < _parts.Length; levelIndex++)
         {
-            return;
+            scale *= _scaleBias;
+            var levelParts = _parts[levelIndex];
+            for (var fractalPartIndex = 0; fractalPartIndex < levelParts.Length; fractalPartIndex*=_childCount)
+            {
+                for (var childIndex = 0; childIndex < _childCount; childIndex++)
+                {
+                    levelParts[fractalPartIndex + childIndex] = CreatePart(levelIndex, childIndex, scale);
+                }
+            }
         }
-        var childA = CreateChild(Vector3.up, Quaternion.identity);
-        var childB = CreateChild(Vector3.right, Quaternion.Euler(0f, 0f, -90f));
-        var childC = CreateChild(Vector3.left, Quaternion.Euler(0f, 0f, 90f));
-        var childD = CreateChild(Vector3.forward, Quaternion.Euler(90f, 0f, 0f));
-        var childE = CreateChild(Vector3.back, Quaternion.Euler(-90f, 0f, 0f));
-        childA.transform.SetParent(transform, false);
-        childB.transform.SetParent(transform, false);
-        childC.transform.SetParent(transform, false);
-        childD.transform.SetParent(transform, false);
-        childE.transform.SetParent(transform, false);
-
     }
-    private Fractal2 CreateChild(Vector3 direction, Quaternion rotation)
+
+    private FractalPart CreatePart(int v1, int v2, float scale)
     {
-        var child = Instantiate(this);
-        child._depth = _depth - 1;
-        child.transform.localPosition = _positionOffset * direction;
-        child.transform.localRotation = rotation;
-        child.transform.localScale = _scaleBias * Vector3.one;
-        return child;
+        throw new NotImplementedException();
     }
 
     private void Update()
     {
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+        var deltaRotation = Quaternion.Euler(0f, _rotationSpeed * Time.deltaTime, 0f);
+        var rootPart = _parts[0][0];
+        rootPart.Rotation *= deltaRotation;
+        rootPart.Transform.localRotation=rootPart.Rotation;
+        _parts[0][0] = rootPart;
 
+        for (int li = 1; li < _parts.Length; li++)
+        {
+            var parentParts = _parts[li - 1];
+            var levelParts=_parts[li];
+
+            for (var fpi = 0; fpi < levelParts.Length; fpi++)
+            {
+                var parentTransform = parentParts[fpi / _childCount].Transform;
+                var part = levelParts[fpi];
+                part.Rotation *= deltaRotation;
+                part.Transform.localRotation = parentTransform.localRotation * part.Rotation;
+                part.Transform.localPosition = parentTransform.localPosition + parentTransform.localRotation * (_positionOffset * part.Transform.localScale.x * part.Direction);
+                levelParts[fpi] = part;
+            }
+        }
     }
-
-    
-
-    private void OnDestroy()
-    {
-       
-    }
-
 
 }
 
-public struct MyJobs : IJobParallelForTransform
-{
-    private float speed;
-    public float rotation;
-    public float deltaTime;
-    public MyJobs(float speed, float rotation, float deltaTime)
-    {
-        this.speed = speed;
-        this.rotation = rotation;
-        this.deltaTime = deltaTime;
-    }
-
-    public void Execute(int index, TransformAccess transform)
-    {
-
-
-        transform.rotation *= Quaternion.Euler(speed * deltaTime, speed * deltaTime, speed * deltaTime);
-
-        Debug.Log($"MyJobs transform: {transform}, speed {speed},  rotation {rotation}");
-    }
-}

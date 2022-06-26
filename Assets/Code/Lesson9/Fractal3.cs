@@ -3,7 +3,7 @@ using UnityEngine.Jobs;
 using UnityEngine;
 using Unity.Collections;
 
-public class Fractal : MonoBehaviour
+public class Fractal3 : MonoBehaviour
 {
     public struct FractalPart
     {
