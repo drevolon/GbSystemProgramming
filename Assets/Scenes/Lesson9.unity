@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &104888044
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -233,9 +233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcd278763e0d104a9bb5b81a446637f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 0}
+  material: {fileID: 0}
   _depth: 6
-  rotationSpeed: 32
-  _speed: 100
+  _rotationSpeed: 0
 --- !u!1 &197458909
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1482410083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,7 +632,7 @@ PrefabInstance:
     - target: {fileID: 3204580362556806159, guid: 6644d6a84ee49584fb517f2701bff2f2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6644d6a84ee49584fb517f2701bff2f2, type: 3}
@@ -844,7 +845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2982477231111909741
 MonoBehaviour:
   m_ObjectHideFlags: 0

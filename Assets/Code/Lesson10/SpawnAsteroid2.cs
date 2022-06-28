@@ -5,12 +5,12 @@ using UnityEngine;
 using Unity.Jobs;
 using UnityEngine.Jobs;
 
-public class SpawnAsteroid : MonoBehaviour
+public class SpawnAsteroid2 : MonoBehaviour
 {
     [SerializeField] GameObject _prefab;
     [SerializeField] int _count = 10;
     [SerializeField] float _speed = 1;
-    [SerializeField] float _posXbegin =-41f;
+    [SerializeField] float _posXbegin = -41f;
     [SerializeField] float _posXend = 41f;
     [SerializeField] float _posYbegin = -5f;
     [SerializeField] float _posYend = 5f;
@@ -44,7 +44,7 @@ public class SpawnAsteroid : MonoBehaviour
     {
         _rotation += _speed * Time.deltaTime;
         myJobs.deltaTime = Time.deltaTime;
-        _angle += _speedMoveAsteroid * Time.deltaTime; 
+        _angle += _speedMoveAsteroid * Time.deltaTime;
 
         myJobs.rotation = _rotation;
         var handle = myJobs.Schedule(_transformAccess);
@@ -53,7 +53,7 @@ public class SpawnAsteroid : MonoBehaviour
 
     public struct MyJobs : IJobParallelForTransform
     {
-        
+
         private float speed;
         public float rotation;
         public float deltaTime;
@@ -69,19 +69,19 @@ public class SpawnAsteroid : MonoBehaviour
             this.radius = radius;
             this.speedMoveAsteroid = speedMoveAsteroid;
             this.angle = angle;
-            
+
         }
 
         public void Execute(int index, TransformAccess transform)
         {
             //F = m * v2 / r => v2=Fr/m
-            
-            float objScale = transform.localScale.magnitude; 
-            float speedCalc = (0.001f / objScale)* speed;
-                        
+
+            float objScale = transform.localScale.magnitude;
+            float speedCalc = (0.001f / objScale) * speed;
+
             transform.rotation *= Quaternion.Euler(speedCalc * deltaTime, speedCalc * deltaTime, speedCalc * deltaTime);
 
-           //transform.position= ?????
+            //transform.position= ?????
 
         }
     }
