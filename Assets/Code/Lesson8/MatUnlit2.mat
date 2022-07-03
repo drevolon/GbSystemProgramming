@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walls
-  m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: MatUnlit2
+  m_Shader: {fileID: 4800000, guid: 7ed49c4acc0244d4a97700ab248a18ba, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -64,24 +64,17 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PointSet: 0.5
-    - _Scale: 1
-    - _Seed: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.6320754, g: 0.068574235, b: 0.19126645, a: 1}
-    - _ColorEarth: {r: 0, g: 1, b: 0, a: 1}
-    - _ColorMountains: {r: 0.49, g: 0.25, b: 0.08, a: 1}
-    - _ColorSea: {r: 0, g: 0, b: 1, a: 1}
-    - _Emission: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.04650232, g: 0.15286005, b: 0.8962264, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlobalColor: {r: 0.15886435, g: 0.6603774, b: 0.1631293, a: 1}
   m_BuildTextureStacks: []

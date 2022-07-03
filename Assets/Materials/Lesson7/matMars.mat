@@ -85,7 +85,10 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _PlanetRadius: 0
+    - _PointSet: 0.5
     - _Pow: 0
+    - _Scale: 1
     - _Seed: 1238
     - _Size: 0.1
     - _SmoothnessTextureChannel: 0
